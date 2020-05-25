@@ -16,5 +16,20 @@ namespace LifeGame
         {
             InitializeComponent();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void start_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void stop_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
