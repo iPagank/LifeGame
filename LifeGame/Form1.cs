@@ -60,17 +60,60 @@ namespace LifeGame
         private void DrawGeneration()
         {
             graphics.Clear(Color.Black);
+
+            bool[,] nextField = new bool[cols, rows];
+
             for (int x = 0; x < cols; x++)
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    if (field[x, y])
+                    int counter = countNeighbours(x, y);
+                    bool hasLife = field[x, y];
+
+                    if(!hasLife && counter == 3)
+                    {
+                        nextField[x, y] = true;
+                    }
+                    else if(hasLife && (counter < 2 || counter > 3))
+                    {
+                        nextField[x, y] = false;
+                    }
+                    else
+                    {
+                        nextField[x, y] = field[x, y];
+                    }
+
+                    if (hasLife)
                     {
                         graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
                     }
                 }
             }
+                field = nextField;
                 pictureBox1.Refresh();
+        }
+
+        private int countNeighbours(int x, int y)
+        {
+            int count = 0;
+
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    int col = (x + i + cols) % cols;
+                    int row = (y + j + rows) % rows;
+
+                    bool isSelf = col == x && row == y;
+                    bool hasLife = field[col, row];
+
+                    if (hasLife && !isSelf)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
 
         //Stop game and turn on inputs
