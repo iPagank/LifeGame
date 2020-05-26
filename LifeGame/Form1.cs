@@ -18,6 +18,8 @@ namespace LifeGame
         private int rows;
         private int cols;
 
+        private int countGenerations = 0;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +32,10 @@ namespace LifeGame
             {
                 return;
             }
+
+            countGenerations = 0;
+
+            Text = $"Generation: {countGenerations}";
 
             nudResolution.Enabled = false;
             nudDensity.Enabled = false;
@@ -91,6 +97,8 @@ namespace LifeGame
             }
                 field = nextField;
                 pictureBox1.Refresh();
+
+            Text = $"Generation: {++countGenerations}";
         }
 
         private int countNeighbours(int x, int y)
@@ -144,6 +152,46 @@ namespace LifeGame
         private void stop_Click(object sender, EventArgs e)
         {
             StopGame();
+        }
+
+        //Add or delete rectangle
+        private void MouseAction(MouseEventArgs e, bool result)
+        {
+            int x = e.Location.X / resolution;
+            int y = e.Location.Y / resolution;
+            if (ValidMousePosition(x, y))
+            {
+                field[x, y] = result;
+            }
+        }
+
+        // Validate out of bounds array
+        private bool ValidMousePosition(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < cols && y < rows;
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!timer1.Enabled)
+            {
+                return;
+            }
+
+            if (e.Button == MouseButtons.Left)
+            {
+                MouseAction(e,true);
+            }
+
+            if (e.Button == MouseButtons.Right)
+            {
+                MouseAction(e,false);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Text = "Life Game";
         }
     }
 }
