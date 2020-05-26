@@ -73,6 +73,21 @@ namespace LifeGame
                 pictureBox1.Refresh();
         }
 
+        //Stop game and turn on inputs
+        private void StopGame()
+        {
+            if (!timer1.Enabled)
+            {
+                return;
+            }
+            else
+            {
+                timer1.Stop();
+                nudDensity.Enabled = true;
+                nudResolution.Enabled = true;
+            }
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             DrawGeneration();
@@ -85,7 +100,7 @@ namespace LifeGame
 
         private void stop_Click(object sender, EventArgs e)
         {
-
+            StopGame();
         }
     }
 }
