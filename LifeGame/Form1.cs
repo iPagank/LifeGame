@@ -56,9 +56,26 @@ namespace LifeGame
             timer1.Start();
         }
 
+        //function daw rectangles from array field
+        private void DrawGeneration()
+        {
+            graphics.Clear(Color.Black);
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    if (field[x, y])
+                    {
+                        graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
+                    }
+                }
+            }
+                pictureBox1.Refresh();
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            DrawGeneration();
         }
 
         private void start_Click(object sender, EventArgs e)
